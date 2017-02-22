@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strstr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vklaouse <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jschotte <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2015/11/24 12:52:33 by vklaouse          #+#    #+#             */
-/*   Updated: 2015/12/03 15:58:41 by vklaouse         ###   ########.fr       */
+/*   Created: 2015/11/24 14:31:30 by jschotte          #+#    #+#             */
+/*   Updated: 2015/11/30 17:50:20 by jschotte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,8 @@ char	*ft_strstr(const char *s1, const char *s2)
 	int k;
 
 	i = 0;
-	k = 0;
-	if (s2[i] == '\0')
-		return (char*)(s1);
+	if (s2[0] == '\0')
+		return ((char *)(s1));
 	while (s1[i] != '\0')
 	{
 		j = i;
@@ -31,7 +30,7 @@ char	*ft_strstr(const char *s1, const char *s2)
 			j++;
 			k++;
 			if (s2[k] == '\0')
-				return (char*)(&s1[i]);
+				return (((char *)(&s1[i])));
 		}
 		i++;
 	}

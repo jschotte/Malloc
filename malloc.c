@@ -6,7 +6,7 @@
 /*   By: jschotte <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/06 14:37:24 by jschotte          #+#    #+#             */
-/*   Updated: 2017/02/10 14:00:50 by jschotte         ###   ########.fr       */
+/*   Updated: 2017/02/21 17:09:04 by jschotte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,55 +14,80 @@
 
 void	ft_init_env(void)
 {
-	base.lst_tiny = NULL;
-	base.lst_small = NULL;
-	base.lst_big = NULL;
+	base.list_tiny = NULL;
+	base.list_small = NULL;
+	base.list_large = NULL;
 }
 
-t_elem	*ft_find_block(size_t s, t_elem **list)
+void		ft_pushback(t_block *lst, t_block *new)
 {
-	t_elem	*tmp;
+	t_block *tmp;
 
-	tmp = *list;
-	while (tmp && !(tmp->is_free && s > tmp->size))
-		tmp = tmp->next;
-
-	return (tmp);
-}
-
-t_elem	*ft_find_last(t_elem **list)
-{
-	t_elem	*tmp;
-
-	tmp = *list;
+	tmp = lst;
 	while (tmp->next)
 		tmp = tmp->next;
-
-	return (tmp);
+	tmp->next = new;
 }
 
-t_elem	*ft_create_elem(size_t s)
+t_block	*ft_createpage(size_t size)
 {
-	t_elem	*b;
+	t_block	*b;
 
-	b = mmap(0, BLOCK_SIZE + s, PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE, -1, 0);
-	b->size = s;
+	b = mmap(0, size, PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE, -1, 0);
+	if (b == (void *) -1)
+		return (NULL);
+	b->ptr = b->data;
+	b->size = size;
+	b->is_free = 0;
 	b->next = NULL;
-	b->is_free = 1;
+//	printf("MMAP %zu Adress: %p\n", size, b);
 	return (b);
+}
+
+t_block	*getfirstfree(t_block *b)
+{
+	while (b && b->is_free != 0)
+		b = b->next;
+	return (b);
+}
+
+void	ft_split_page(t_block *lst, int size, int max)
+{
+	t_block *new;
+	int len;
+	int i;
+
+	lst->is_free = 0;
+	lst->size = size;
+	lst->ptr = lst->data;
+	len = max / size;
+	i = 0;
+	len--;
+	while (i < len)
+	{
+		new = lst->ptr + (size - sizeof(t_block));
+		new->ptr = new->data;
+		new->is_free = 0;
+		new->size = size;
+		new->next = NULL;
+		lst->next = new;
+		lst = lst->next;
+		i++;
+	}
 }
 
 void	*malloc(size_t size)
 {
 	if (size <= 0)
 		return (NULL);
-	if (base.lst_tiny == NULL && base.lst_small == NULL
-			&& base.lst_big == NULL)
+	size = align8(size);
+	if (base.list_tiny == NULL && base.list_small == NULL
+			&& base.list_large == NULL)
 		ft_init_env();
-	if (size < TINY)
+	if (size <= BLOCKTINY)
 		return(ft_manage_tiny(size)->data);
-	else if (size < SMALL)
+	else if (size <= BLOCKSMALL)
 		return(ft_manage_small(size)->data);
 	else
-		return (ft_manage_big(size)->data);
+		return (ft_manage_large(size)->data);
 }

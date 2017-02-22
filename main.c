@@ -6,7 +6,7 @@
 /*   By: jschotte <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/09 10:22:21 by jschotte          #+#    #+#             */
-/*   Updated: 2017/02/10 15:13:03 by jschotte         ###   ########.fr       */
+/*   Updated: 2017/02/22 13:13:40 by jschotte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,27 @@ int	main()
 	i = 0;
 	while (i < 42)
 	{
-		addr=(char*)malloc(1024);
-		addr[0]='a';
-		ft_putchar(addr[0]);
+		addr=(char*)malloc(64);
+		addr[0]=42;
+		//free(addr);
 		i++;
 	}
+	i = 0;
+	while (i < 42)
+	{
+		addr=(char*)malloc(512);
+		//free(addr);
+		addr[0]=42;
+		free(addr);
+		i++;
+	}
+	i = 0;
+	while (i < 10)
+	{
+		addr=(char*)malloc(2048 + i*10);
+		addr[0]=42;
+		i++;
+	}	
 	show_alloc_mem();
 	return (0);
 }

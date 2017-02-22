@@ -5,38 +5,37 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: jschotte <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2015/11/26 11:19:49 by jschotte          #+#    #+#             */
-/*   Updated: 2016/03/15 08:57:09 by jschotte         ###   ########.fr       */
+/*   Created: 2015/11/24 13:55:37 by jschotte          #+#    #+#             */
+/*   Updated: 2015/11/30 09:58:24 by jschotte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_atoi(const char *nptr)
+int		ft_atoi(const char *nptr)
 {
 	int				i;
-	int				negativ;
-	int				result;
+	int				res;
+	int				sign;
+	unsigned char	*str;
 
 	i = 0;
-	negativ = 0;
-	result = 0;
-	while ((unsigned char)nptr[i] <= 32)
+	res = 0;
+	sign = 1;
+	str = (unsigned char*)nptr;
+	while (str[i] < 33)
 		i++;
-	if (nptr[i] == '+')
-		i++;
-	else if (nptr[i] == '-')
+	if (str[i] == '-')
 	{
-		negativ = -1;
+		sign = -1;
 		i++;
 	}
-	while (nptr[i] >= '0' && nptr[i] <= '9')
+	else if (str[i] == '+')
+		i++;
+	while (ft_isdigit(str[i]))
 	{
-		result = result * 10 + (nptr[i] - 48);
+		res = res * 10 + str[i] - '0';
 		i++;
 	}
-	if (negativ == -1)
-		return (-result);
-	else
-		return (result);
+	return (res * sign);
 }

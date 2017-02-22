@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: jschotte <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2015/11/24 19:43:37 by jschotte          #+#    #+#             */
-/*   Updated: 2016/03/15 08:57:19 by jschotte         ###   ########.fr       */
+/*   Created: 2015/11/24 14:24:27 by jschotte          #+#    #+#             */
+/*   Updated: 2015/11/25 11:59:36 by jschotte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,16 @@
 
 char	*ft_strcat(char *dest, const char *src)
 {
-	int		i;
-	int		j;
-	char	*src1;
+	int i;
+	int l;
 
 	i = 0;
-	j = ft_strlen(dest);
-	src1 = (char*)src;
-	while (src1[i] != '\0')
+	l = ft_strlen(dest);
+	while (src[i] != '\0')
 	{
-		dest[j + i] = src1[i];
+		dest[l + i] = src[i];
 		i++;
 	}
-	dest[j + i] = '\0';
+	dest[l + i] = '\0';
 	return (dest);
 }

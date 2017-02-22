@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: jschotte <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2015/11/30 17:37:08 by jschotte          #+#    #+#             */
-/*   Updated: 2016/03/15 08:57:10 by jschotte         ###   ########.fr       */
+/*   Created: 2015/11/26 16:18:42 by jschotte          #+#    #+#             */
+/*   Updated: 2015/12/04 14:41:18 by jschotte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,16 @@
 
 void	*ft_memalloc(size_t size)
 {
-	void *str;
+	void	*mem;
+	size_t	i;
 
-	str = malloc(sizeof(str) * size);
-	if (str == NULL)
+	i = 0;
+	mem = malloc(size);
+	if (mem == NULL)
 		return (NULL);
-	ft_bzero(str, size);
-	return (str);
+	else
+	{
+		ft_bzero(mem, size);
+		return (mem);
+	}
 }

@@ -5,12 +5,11 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: jschotte <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2015/11/30 18:12:35 by jschotte          #+#    #+#             */
-/*   Updated: 2016/03/15 08:57:19 by jschotte         ###   ########.fr       */
+/*   Created: 2015/11/26 14:45:25 by jschotte          #+#    #+#             */
+/*   Updated: 2015/11/26 16:39:54 by jschotte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
 #include <unistd.h>
 
 void	ft_putchar_fd(char c, int fd)

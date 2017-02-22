@@ -5,21 +5,21 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: jschotte <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2015/11/30 18:06:06 by jschotte          #+#    #+#             */
-/*   Updated: 2016/03/15 08:57:19 by jschotte         ###   ########.fr       */
+/*   Created: 2015/11/23 13:02:00 by jschotte          #+#    #+#             */
+/*   Updated: 2015/11/26 16:35:12 by jschotte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_putstr(char const *s)
+void	ft_putstr(char const *str)
 {
-	size_t	i;
+	int i;
 
 	i = 0;
-	while (s[i] != '\0')
+	while (str[i] != '\0')
 	{
-		ft_putchar(s[i]);
+		ft_putchar(str[i]);
 		i++;
 	}
 }

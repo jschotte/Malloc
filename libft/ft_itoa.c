@@ -5,54 +5,59 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: jschotte <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2015/11/30 18:02:48 by jschotte          #+#    #+#             */
-/*   Updated: 2016/03/15 08:57:10 by jschotte         ###   ########.fr       */
+/*   Created: 2015/12/01 11:00:19 by exam              #+#    #+#             */
+/*   Updated: 2015/12/04 13:55:34 by jschotte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include <stdlib.h>
 
-static void	lengths(int n, size_t *len, int *weight)
+static	char	*ft_convert(int nb, char *str)
 {
-	*len = 1;
-	if (n >= 0)
+	int i;
+	int j;
+
+	j = 0;
+	if (nb < 0)
 	{
-		*len = 0;
-		n = -n;
+		str[j] = '-';
+		j++;
+		nb *= -1;
 	}
-	*weight = 1;
-	while (n / *weight < -9)
+	i = 1;
+	while (nb / i > 9)
+		i *= 10;
+	while (i != 0)
 	{
-		*weight *= 10;
-		*len += 1;
+		str[j] = (nb / i) + 48;
+		nb %= i;
+		i /= 10;
+		j++;
 	}
+	str[j] = '\0';
+	return (str);
 }
 
-char		*ft_itoa(int n)
+char			*ft_itoa(int nbr)
 {
-	size_t	len;
-	int		weight;
-	size_t	cur;
+	int		i;
+	int		j;
 	char	*str;
 
-	lengths(n, &len, &weight);
-	str = (char *)malloc(sizeof(*str) * (len + 1));
-	if (str == NULL)
-		return (NULL);
-	cur = 0;
-	if (n < 0)
+	if (nbr == -2147483648)
+		return (ft_strdup("-2147483648"));
+	else
 	{
-		str[cur] = '-';
-		cur++;
+		i = 0;
+		j = nbr;
+		while (j > 0)
+		{
+			i++;
+			j = j / 10;
+		}
+		str = (char*)malloc(sizeof(str) * i + 1);
+		str = ft_convert(nbr, str);
+		return (str);
 	}
-	if (n > 0)
-		n = -n;
-	while (weight >= 1)
-	{
-		str[cur++] = -(n / weight % 10) + 48;
-		weight /= 10;
-	}
-	str[cur] = '\0';
-	return (str);
 }

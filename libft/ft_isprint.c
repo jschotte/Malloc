@@ -5,16 +5,14 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: jschotte <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2015/11/24 11:18:06 by jschotte          #+#    #+#             */
-/*   Updated: 2016/03/15 08:57:09 by jschotte         ###   ########.fr       */
+/*   Created: 2015/11/24 10:22:19 by jschotte          #+#    #+#             */
+/*   Updated: 2015/11/30 13:19:53 by jschotte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-
-int	ft_isprint(int c)
+int		ft_isprint(int c)
 {
-	if (c >= 32 && c < 127)
+	if (c >= 32 && c <= 126)
 		return (1);
 	else
 		return (0);

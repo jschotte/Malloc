@@ -5,14 +5,12 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: jschotte <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2015/11/24 15:45:22 by jschotte          #+#    #+#             */
-/*   Updated: 2016/03/15 08:57:09 by jschotte         ###   ########.fr       */
+/*   Created: 2015/11/24 10:16:08 by jschotte          #+#    #+#             */
+/*   Updated: 2015/12/01 16:02:53 by jschotte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-
-int	ft_isascii(int c)
+int		ft_isascii(int c)
 {
 	if (c >= 0 && c <= 127)
 		return (1);

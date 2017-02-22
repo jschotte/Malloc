@@ -6,25 +6,28 @@
 /*   By: jschotte <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/10 12:22:40 by jschotte          #+#    #+#             */
-/*   Updated: 2017/02/10 15:15:58 by jschotte         ###   ########.fr       */
+/*   Updated: 2017/02/21 15:13:45 by jschotte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/malloc.h"
 
-t_elem		*ft_manage_small(size_t s)
+t_block		*ft_manage_small(size_t s)
 {
-	t_elem	*b;
-	
-	if (base.lst_small == NULL)
+	t_block	*b;
+
+	if (base.list_small == NULL)
 	{
-		b = ft_create_elem(s);
-		base.lst_small = b;
+		base.list_small = ft_createpage(PAGESMALL);
+		ft_split_page(base.list_small, BLOCKSMALL, PAGESMALL);
 	}
-	else
+	b = getfirstfree(base.list_small);
+	if (b == NULL)
 	{
-		b = ft_create_elem(s);
-		ft_find_last(&base.lst_small)->next = b;
+		b = ft_createpage(PAGESMALL);	
+		ft_split_page(b, BLOCKSMALL, PAGESMALL);
+		ft_pushback(base.list_small, b);		
 	}
+	b->is_free = 1;
 	return (b);
 }

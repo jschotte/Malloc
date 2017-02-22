@@ -6,7 +6,7 @@
 #    By:  jschotte<marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/02/06 20:29:39 by jschotte          #+#    #+#              #
-#    Updated: 2017/02/10 12:24:26 by jschotte         ###   ########.fr        #
+#    Updated: 2017/02/21 16:43:44 by jschotte         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,10 +17,11 @@ endif
 NAME =  libft_malloc_$(HOSTTYPE).so
 
 SRC = malloc.c \
+	  free.c \
 	  show_alloc.c \
 	  tiny.c \
 	  small.c \
-	  big.c
+	  large.c \
 
 OBJ = $(SRC:.c=.o)
 
@@ -34,14 +35,15 @@ LIB = "libft/libft.a"
 
 $(NAME):
 	@make -C libft/ fclean && make -C libft/
-	@$(CC) -c $(CFLAGS) $(SRC)
-	@$(CC) -shared -o $(NAME) $(OBJ) $(LIB)
+	@$(CC) -c $(SRC)
+	#@$(CC) -c $(CFLAGS) $(SRC)
+	@$(CC) -shared -o $(NAME) ./$(OBJ) $(LIB)
 	@ln -s $(NAME) libft_malloc.so
 
 all: $(NAME)
 
 clean:
-	@$(RM) $(OBJ)
+	@$(RM) ./$(OBJ)
 	@make -C libft/ clean
 
 fclean: clean

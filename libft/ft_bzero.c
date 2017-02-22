@@ -5,23 +5,21 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: jschotte <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2015/11/24 19:11:45 by jschotte          #+#    #+#             */
-/*   Updated: 2016/03/15 08:57:09 by jschotte         ###   ########.fr       */
+/*   Created: 2015/11/23 16:25:31 by jschotte          #+#    #+#             */
+/*   Updated: 2015/11/30 16:07:24 by jschotte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include <string.h>
 
-void	ft_bzero(void *s, size_t n)
+void	ft_bzero(void *s, size_t len)
 {
-	size_t	i;
-	char	*str;
+	size_t count;
 
-	i = 0;
-	str = (char*)s;
-	while (i < n)
+	count = 0;
+	while (count < len)
 	{
-		str[i] = '\0';
-		i++;
+		((char*)s)[count] = 0;
+		count++;
 	}
 }
