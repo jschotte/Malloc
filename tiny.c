@@ -6,7 +6,7 @@
 /*   By: jschotte <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/10 12:22:40 by jschotte          #+#    #+#             */
-/*   Updated: 2017/02/22 11:32:50 by jschotte         ###   ########.fr       */
+/*   Updated: 2017/03/11 14:40:47 by jschotte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,18 +16,20 @@ t_block		*ft_manage_tiny(size_t s)
 {
 	t_block	*b;
 
-	if (base.list_tiny == NULL)
+	if (g_base.list_tiny == NULL)
 	{
-		base.list_tiny = ft_createpage(PAGETINY);
-		ft_split_page(base.list_tiny, BLOCKTINY, PAGETINY);
+		g_base.list_tiny = ft_createpage(PAGETINY);
+		ft_split_page(g_base.list_tiny, BLOCKTINY, PAGETINY);
 	}
-	b = getfirstfree(base.list_tiny);
+	b = getfirstfree(g_base.list_tiny);
 	if (b == NULL)
 	{
-		b = ft_createpage(PAGETINY);	
+		b = ft_createpage(PAGETINY);
 		ft_split_page(b, BLOCKTINY, PAGETINY);
-		ft_pushback(base.list_tiny, b);		
+		ft_pushback(g_base.list_tiny, b);
 	}
+	b->size = s;
 	b->is_free = 1;
+	pthread_mutex_unlock(&g_base.lock);
 	return (b);
 }

@@ -6,7 +6,7 @@
 #    By:  jschotte<marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/02/06 20:29:39 by jschotte          #+#    #+#              #
-#    Updated: 2017/02/21 16:43:44 by jschotte         ###   ########.fr        #
+#    Updated: 2017/03/11 15:34:03 by jschotte         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,6 +22,9 @@ SRC = malloc.c \
 	  tiny.c \
 	  small.c \
 	  large.c \
+	  realloc.c \
+	  calloc.c \
+	  check_node.c \
 
 OBJ = $(SRC:.c=.o)
 
@@ -35,9 +38,8 @@ LIB = "libft/libft.a"
 
 $(NAME):
 	@make -C libft/ fclean && make -C libft/
-	@$(CC) -c $(SRC)
-	#@$(CC) -c $(CFLAGS) $(SRC)
-	@$(CC) -shared -o $(NAME) ./$(OBJ) $(LIB)
+	@$(CC) -c $(CFLAGS) $(SRC)
+	@$(CC) -lpthread -shared -o $(NAME) ./$(OBJ) $(LIB)
 	@ln -s $(NAME) libft_malloc.so
 
 all: $(NAME)

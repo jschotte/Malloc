@@ -1,21 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   big.c                                            :+:      :+:    :+:   */
+/*   calloc.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jschotte <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/02/10 12:22:40 by jschotte          #+#    #+#             */
-/*   Updated: 2017/02/10 12:28:50 by jschotte         ###   ########.fr       */
+/*   Created: 2017/03/10 13:22:15 by jschotte          #+#    #+#             */
+/*   Updated: 2017/03/11 11:23:57 by jschotte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/malloc.h"
 
-t_elem		*ft_manage_big(size_t s)
+void	*calloc(size_t count, size_t size)
 {
-	t_elem	*b;
+	char	*ptr;
 
-	b = ft_create_elem(s);
-	return b;
+	ptr = NULL;
+	if (count == 0)
+		count++;
+	ptr = malloc(count * size);
+	bzero(ptr, count * size);
+	return (ptr);
 }

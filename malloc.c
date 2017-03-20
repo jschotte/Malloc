@@ -6,20 +6,13 @@
 /*   By: jschotte <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/06 14:37:24 by jschotte          #+#    #+#             */
-/*   Updated: 2017/02/21 17:09:04 by jschotte         ###   ########.fr       */
+/*   Updated: 2017/03/11 15:20:35 by jschotte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/malloc.h"
 
-void	ft_init_env(void)
-{
-	base.list_tiny = NULL;
-	base.list_small = NULL;
-	base.list_large = NULL;
-}
-
-void		ft_pushback(t_block *lst, t_block *new)
+void	ft_pushback(t_block *lst, t_block *new)
 {
 	t_block *tmp;
 
@@ -34,13 +27,16 @@ t_block	*ft_createpage(size_t size)
 	t_block	*b;
 
 	b = mmap(0, size, PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE, -1, 0);
-	if (b == (void *) -1)
+	if (b == (void *)-1)
+	{
+		pthread_mutex_lock(&g_base.lock);
 		return (NULL);
+	}
 	b->ptr = b->data;
 	b->size = size;
 	b->is_free = 0;
+	b->ishead = 1;
 	b->next = NULL;
-//	printf("MMAP %zu Adress: %p\n", size, b);
 	return (b);
 }
 
@@ -53,13 +49,14 @@ t_block	*getfirstfree(t_block *b)
 
 void	ft_split_page(t_block *lst, int size, int max)
 {
-	t_block *new;
-	int len;
-	int i;
+	t_block	*new;
+	int		len;
+	int		i;
 
 	lst->is_free = 0;
 	lst->size = size;
 	lst->ptr = lst->data;
+	lst->ishead = 1;
 	len = max / size;
 	i = 0;
 	len--;
@@ -70,6 +67,7 @@ void	ft_split_page(t_block *lst, int size, int max)
 		new->is_free = 0;
 		new->size = size;
 		new->next = NULL;
+		new->ishead = 0;
 		lst->next = new;
 		lst = lst->next;
 		i++;
@@ -78,16 +76,19 @@ void	ft_split_page(t_block *lst, int size, int max)
 
 void	*malloc(size_t size)
 {
-	if (size <= 0)
-		return (NULL);
-	size = align8(size);
-	if (base.list_tiny == NULL && base.list_small == NULL
-			&& base.list_large == NULL)
-		ft_init_env();
-	if (size <= BLOCKTINY)
-		return(ft_manage_tiny(size)->data);
-	else if (size <= BLOCKSMALL)
-		return(ft_manage_small(size)->data);
+	size = ALIGN8(size);
+	if (!g_base.list_tiny && !g_base.list_small && !g_base.list_large)
+	{
+		g_base.list_tiny = NULL;
+		g_base.list_small = NULL;
+		g_base.list_large = NULL;
+		pthread_mutex_init(&g_base.lock, NULL);
+	}
+	pthread_mutex_lock(&g_base.lock);
+	if (size <= BLOCKTINY - sizeof(t_block))
+		return (ft_manage_tiny(size)->data);
+	else if (size <= BLOCKSMALL - sizeof(t_block))
+		return (ft_manage_small(size)->data);
 	else
 		return (ft_manage_large(size)->data);
 }
